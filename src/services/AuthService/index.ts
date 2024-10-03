@@ -69,6 +69,16 @@ export const getNewAccessToken = async () => {
   }
 };
 
+export const changePassword = async (payload: any) => {
+  try {
+    const { data } = await axiosInstance.post(`/auth/change-password`, payload);
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
+  }
+};
+
 export const logout = () => {
   cookies().delete("accessToken");
   cookies().delete("refreshToken");

@@ -1,53 +1,90 @@
-# Next.js & NextUI Template
+# CookNest
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+## Introduction
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
+This Recipe Sharing Community is a full-stack web application designed for cooking enthusiasts to discover, share, and organize recipes. The platform targets home cooks, culinary students, and passionate food lovers, allowing users to share their favorite recipes, interact with ingredient checklists, and manage cooking time estimates. It promotes culinary knowledge-sharing and social interaction through comments, ratings, following users, and upvoting/downvoting recipes. Premium membership unlocks exclusive content, accessible through a subscription-based model, allowing users to access additional features and content.
 
-## Technologies Used
+## Features
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [NextUI v2](https://nextui.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+- **User Authentication & Authorization:**:
+  - User Registration
+  - Login & JWT-Based Authentication
+  - Role-based Access Control (Admin and User)
+  - Secure Password Change
+- **User Profile Management:**:
+  - Profile Customization
+  - Social Connectivity
+  - Premium Membership Subscription
+- **Recipe Management**:
 
-## How to Use
+  - My Recipes
+  - Recipe Creation & Update
+  - Recipe Deletion
 
-### Use the template with create-next-app
+- **Rating, Commenting & Upvote/Downvote System**:
+  - Rate Recipes
+  - Commenting
+  - Upvote/Downvote System
+- **Validation**:
+  - Input validation using Zod
+- **Recipe Feed**:
+  - Recipe Display
+  - Advanced Search & Filter
+  - Infinite Scroll
+- **User Management**:
+  - Admins can block/unblock users, publish/unpublish recipe posts, manage user accounts, and perform CRUD operations on all recipes and admin accounts.
 
-To create a new project based on this template using `create-next-app`, run the following command:
+## Technology Stack
 
-```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
+- Next JS
+- TypeScript
+- Next UI
+- Tanstack Query
+- Tailwind CSS
+
+## Installation Guideline
+
+### Prerequisites
+
+- Node.js (version 14 or above)
+- npm (version 6 or above) or yarn (version 1.22 or above)
+
+### Installation Steps
+
+1. **Clone the repository**
+
+   ```sh
+   https://github.com/yasin-arafat-389/CookNest-Client
+   ```
+
+   2. **Navigate to the project directory**
+
+   ```sh
+   cd CookNest-Client
+
+   ```
+
+   3. **Install the dependencies**
+
+   ```sh
+   npm install
+   ```
+
+### Configuration
+
+1.  **Replace base URL according to your local machine**
+
+```sh
+const axiosInstance = axios.create({
+  baseURL: envConfig.baseApi,
+});
 ```
 
-### Install dependencies
+## Usage
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
+1.  **Start the development server**
 
-```bash
-npm install
-```
-
-### Run the development server
-
-```bash
+```sh
 npm run dev
+
 ```
-
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
-
-## License
-
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).

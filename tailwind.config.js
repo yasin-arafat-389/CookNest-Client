@@ -9,6 +9,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: "#B99470",
+        secondary: "#28a745",
+        button: "#fb8c00",
+      },
+
       fontFamily: {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
