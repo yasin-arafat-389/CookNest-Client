@@ -13,20 +13,30 @@ import {
   Button,
 } from "@nextui-org/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import logo from "../../../public/logo.png";
+
+import NavbarDropdown from "./NavbarDropdown";
+
+import { useUser } from "@/src/context/user.provider";
 
 export default function NavigationBar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
+  const { user } = useUser();
+  const router = useRouter();
+
   const menuItems = [
     { name: "Home", href: "/" },
     { name: "Recipe", href: "/recipe" },
+    { name: "About US", href: "/about" },
+    { name: "Contact US", href: "/contact" },
   ];
 
   return (
     <Navbar
-      className="bg-[#B99470] py-0 md:py-3"
+      className="bg-[#B99470] py-0 md:py-3 w-full"
       onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarContent>
@@ -45,10 +55,9 @@ export default function NavigationBar() {
         {menuItems.map((item, index) => (
           <NavbarItem key={index}>
             <Link
-              className={`text-gray-800 font-bold text-lg`}
+              className={`text-gray-800 font-bold text-lg px-2 py-1 hover:bg-[#FEFAE0] rounded-lg transition duration-300 ease-in-out`}
               color="foreground"
               href={item.href}
-              onClick={() => setIsMenuOpen(false)} // Close the menu on link click
             >
               {item.name}
             </Link>
@@ -57,16 +66,20 @@ export default function NavigationBar() {
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem>
-          <Button
-            as={Link}
-            className="bg-[#FEFAE0] text-gray-800 font-bold text-lg"
-            color="default"
-            href="/login"
-          >
-            Login
-          </Button>
-        </NavbarItem>
+        {user?.email ? (
+          <NavbarItem className=" sm:flex gap-2">
+            <NavbarDropdown />
+          </NavbarItem>
+        ) : (
+          <NavbarItem className=" sm:flex gap-2">
+            <Button
+              className="bg-[#FEFAE0] text-lg text-gray-800 font-bold"
+              onClick={() => router.push("/login")}
+            >
+              Login
+            </Button>
+          </NavbarItem>
+        )}
       </NavbarContent>
 
       <NavbarMenu>
