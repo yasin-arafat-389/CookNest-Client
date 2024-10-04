@@ -4,8 +4,8 @@ import { Metadata, Viewport } from "next";
 import { Providers } from "../lib/providers";
 
 export const metadata: Metadata = {
-  title: "Next App",
-  description: "This is a next app",
+  title: "CookNest || A Recipe sharing platform",
+  description: "Recipe sharing platform",
 };
 
 export const viewport: Viewport = {
@@ -22,7 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <head />
+      <head>
+        <link
+          href="https://i.ibb.co.com/LttSfkb/favicon-For-Cook-Nest.png"
+          rel="icon"
+        />
+      </head>
       <body>
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           {children}

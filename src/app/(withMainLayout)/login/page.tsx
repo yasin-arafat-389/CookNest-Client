@@ -1,9 +1,17 @@
 import React from "react";
+import { Metadata } from "next";
+
+import MainContentsOfLogin from "./MainContents";
+
+export const metadata: Metadata = {
+  title: "CookNest || Login",
+  description: "Login to manage recipes!",
+};
 
 const LoginPage = () => {
   return (
     <div>
-      <div>This is login page</div>
+      <MainContentsOfLogin />
     </div>
   );
 };
