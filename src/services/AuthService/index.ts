@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 "use server";
 
 import { FieldValues } from "react-hook-form";
@@ -12,7 +13,12 @@ export const registerUser = async (userData: FieldValues) => {
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.message);
+    const data = {
+      success: false,
+      message: error?.response?.data?.message,
+    };
+
+    return data;
   }
 };
 
@@ -26,7 +32,12 @@ export const loginUser = async (userData: FieldValues) => {
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.message);
+    const data = {
+      success: false,
+      message: error?.response?.data?.message,
+    };
+
+    return data;
   }
 };
 
@@ -75,7 +86,27 @@ export const changePassword = async (payload: any) => {
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.message);
+    const data = {
+      success: false,
+      message: error?.response?.data?.message,
+    };
+
+    return data;
+  }
+};
+
+export const resetPassword = async (payload: any) => {
+  try {
+    const { data } = await axiosInstance.post(`/auth/forgot-password`, payload);
+
+    return data;
+  } catch (error: any) {
+    const data = {
+      success: false,
+      message: error?.response?.data?.message,
+    };
+
+    return data;
   }
 };
 

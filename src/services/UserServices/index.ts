@@ -122,7 +122,12 @@ export const createAdmin = async (payload: any) => {
 
     return res.data;
   } catch (error: any) {
-    throw new Error(error.response.data.message);
+    const data = {
+      success: false,
+      message: error?.response?.data?.message,
+    };
+
+    return data;
   }
 };
 

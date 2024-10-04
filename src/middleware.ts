@@ -21,11 +21,7 @@ export async function middleware(request: NextRequest) {
     "/dashboard/manage-recipies",
   ];
 
-  const userProtectedPaths = [
-    "/dashboard/create-recipe",
-    "/recipe",
-    "/recipe/:page*",
-  ];
+  const userProtectedPaths = ["/dashboard/create-recipe"];
 
   const isAdminPath = adminProtectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)

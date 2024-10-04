@@ -14,7 +14,12 @@ export const createRecipe = async (userData: FieldValues) => {
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.message);
+    const data = {
+      success: false,
+      message: error?.response?.data?.message,
+    };
+
+    return data;
   }
 };
 
@@ -54,7 +59,12 @@ export const upvoteRecipe = async (id: string) => {
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.message);
+    const data = {
+      success: false,
+      message: error?.response?.data?.message,
+    };
+
+    return data;
   }
 };
 
@@ -64,7 +74,12 @@ export const downvoteRecipe = async (id: string) => {
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.message);
+    const data = {
+      success: false,
+      message: error?.response?.data?.message,
+    };
+
+    return data;
   }
 };
 
