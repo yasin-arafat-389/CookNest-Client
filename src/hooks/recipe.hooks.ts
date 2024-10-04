@@ -21,12 +21,6 @@ export const useCreateRecipe = () => {
   return useMutation<any, Error, FieldValues>({
     mutationKey: ["CREATE_RECIPE"],
     mutationFn: async (userData) => await createRecipe(userData),
-    onSuccess: () => {
-      toast.success("Recipe creation successful.");
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
   });
 };
 
@@ -75,11 +69,6 @@ export const useUpvoteRecipe = () => {
       queryClient.invalidateQueries({
         queryKey: ["GET_SINGLE_RECIPE"],
       });
-
-      toast.success("Recipe upvotted successfully.");
-    },
-    onError: (error) => {
-      toast.error(error.message);
     },
   });
 };
@@ -95,11 +84,6 @@ export const useDownvoteRecipe = () => {
       queryClient.invalidateQueries({
         queryKey: ["GET_SINGLE_RECIPE"],
       });
-
-      toast.success("Recipe downvotted successfully.");
-    },
-    onError: (error) => {
-      toast.error(error.message);
     },
   });
 };

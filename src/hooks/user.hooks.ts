@@ -1,5 +1,3 @@
-"use client";
-
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
@@ -207,11 +205,6 @@ export const useCreateAdmin = () => {
       queryClient.invalidateQueries({
         queryKey: ["GET_ALL_ADMIN"],
       });
-
-      toast.success("Admin created successfully.");
-    },
-    onError: (error) => {
-      toast.error(error.message);
     },
   });
 };
