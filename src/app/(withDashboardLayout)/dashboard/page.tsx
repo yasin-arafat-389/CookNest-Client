@@ -26,7 +26,8 @@ const Dashboard = () => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const { mutate: updateUser } = useUpdateUserInfo();
+  const { mutate: updateUser, isPending: userUpdatePending } =
+    useUpdateUserInfo();
 
   const { mutate: becomePremiumMember, isPending } = useBecomePremiumMember();
 
@@ -102,93 +103,102 @@ const Dashboard = () => {
     becomePremiumMember(payload);
   };
 
+  const handleModalChange = () => {
+    // Allow closure only if `userUpdatePending` is false
+    if (!userUpdatePending) {
+      onOpenChange();
+    }
+  };
+
   if (isSingleUserDataLoading) {
     return <Loader />;
   }
 
   return (
     <div className="py-10">
-      <div className="w-[90%] sm:w-[70%] lg:w-[50%] mx-auto pb-5 rounded-lg bg-[#FCDE70]">
-        <div className="flex justify-center items-center py-4">
+      <div className="w-[90%] sm:w-[70%] lg:w-[50%] mx-auto pb-6 rounded-xl shadow-md bg-gradient-to-b from-white to-gray-50">
+        <div className="flex flex-col items-center py-6 bg-[#D3B89A] rounded-t-xl shadow-inner">
           <img
             alt="Profile Pic"
-            className="rounded-full object-cover h-24 w-24"
+            className="rounded-full object-cover h-28 w-28 border-4 border-white shadow-lg"
             src={data?.userData?.profilePicture}
           />
-        </div>
-
-        <div className="mb-5 text-center">
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+          <h1 className="mt-4 text-2xl sm:text-3xl font-extrabold text-gray-900">
             {data?.userData?.name}
           </h1>
-          <h1 className="text-lg sm:text-xl font-bold text-gray-900">
+          <p className="text-lg sm:text-xl font-medium text-gray-700">
             {data?.userData?.email}
-          </h1>
+          </p>
         </div>
 
         {user?.role === "user" && (
-          <div className="flex gap-3 px-5 mt-3">
-            <div className="border-gray-600 border-2 rounded-lg text-gray-900 w-[50%]">
-              <div className="text-lg sm:text-xl font-bold text-center">
-                Follower
-              </div>
-              <div className="text-md sm:text-lg font-bold text-center">
+          <div className="flex justify-around gap-4 px-6 py-4 mt-4">
+            <div className="flex flex-col items-center w-[45%] p-4 rounded-lg border-2 border-gray-200 shadow-sm bg-white">
+              <h2 className="text-xl font-semibold text-gray-800">Followers</h2>
+              <p className="text-lg font-bold text-gray-600">
                 {data?.userData?.followers?.length}
-              </div>
+              </p>
             </div>
-
-            <div className="border-gray-600 border-2 rounded-lg text-gray-900 w-[50%]">
-              <div className="text-lg sm:text-xl font-bold text-center">
-                Following
-              </div>
-              <div className="text-md sm:text-lg font-bold text-center">
+            <div className="flex flex-col items-center w-[45%] p-4 rounded-lg border-2 border-gray-200 shadow-sm bg-white">
+              <h2 className="text-xl font-semibold text-gray-800">Following</h2>
+              <p className="text-lg font-bold text-gray-600">
                 {data?.userData?.following?.length}
-              </div>
+              </p>
             </div>
           </div>
         )}
 
-        <div className="border-gray-600 border-2 rounded-lg text-gray-900 mt-5 mx-5 p-4 text-lg sm:text-xl font-bold">
-          <h1>Your Bio: {data?.userData?.bio}</h1>
+        <div className="px-5">
+          <div className="px-6 py-4 mt-4 bg-white rounded-lg shadow-inner border">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
+              Your Bio
+            </h2>
+            <p className="text-gray-600 mt-2">{data?.userData?.bio}</p>
+          </div>
         </div>
 
-        <div className="w-full flex flex-col sm:flex-row gap-5 justify-center items-center mt-5">
-          <Button className="bg-button font-bold text-lg" onPress={onOpen}>
+        <div className="w-full flex flex-col sm:flex-row gap-5 justify-center items-center mt-6 px-6">
+          <Button
+            className="bg-button text-white font-semibold py-2 px-4 rounded-lg shadow"
+            onPress={onOpen}
+          >
             Update Profile Info
           </Button>
-
           {data?.userData?.premiumMembership === false &&
             user?.role === "user" && (
               <Button
-                className="bg-secondary font-bold text-lg"
+                className="bg-button text-white font-semibold py-2 px-4 rounded-lg shadow"
                 isDisabled={isPending}
                 isLoading={isPending}
                 onClick={handleBecomePremiumMember}
               >
-                Buy a premium membership
+                Buy Premium Membership
               </Button>
             )}
         </div>
 
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <Modal
+          isOpen={isOpen || userUpdatePending}
+          onOpenChange={handleModalChange}
+        >
           <ModalContent>
-            <div className="p-4 text-lg">Update Profile Info</div>
+            <div className="p-4 text-xl font-bold text-gray-800">
+              Update Profile Info
+            </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="px-4 pb-4 flex flex-col gap-3">
+              <div className="px-4 pb-4 flex flex-col gap-4">
                 <Input
                   defaultValue={data?.userData?.name}
                   label="Name"
                   type="text"
                   {...register("name")}
                 />
-
                 <Input
                   defaultValue={data?.userData?.profilePicture}
                   label="Profile Picture URL"
                   type="text"
                   {...register("profilePicture")}
                 />
-
                 <Input
                   defaultValue={data?.userData?.bio}
                   label="Bio"
@@ -196,9 +206,13 @@ const Dashboard = () => {
                   {...register("bio")}
                 />
               </div>
-
               <div className="flex justify-center pb-4">
-                <Button className="bg-button" type="submit">
+                <Button
+                  className="bg-button text-white py-2 px-4 rounded-lg shadow"
+                  isDisabled={userUpdatePending}
+                  isLoading={userUpdatePending}
+                  type="submit"
+                >
                   Save Changes
                 </Button>
               </div>
