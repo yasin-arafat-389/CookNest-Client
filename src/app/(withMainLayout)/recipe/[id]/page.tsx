@@ -315,6 +315,10 @@ const RecipeDetails = () => {
           )}
 
           <div className={`mt-10 pb-5 ${user?.role === "admin" && "hidden"}`}>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-7">
+              Comments
+            </h1>
+
             {recipe?.comments?.length === 0 ? (
               <div className="text-2xl text-center font-bold text-red-600">
                 There Are no comments for this post yet.

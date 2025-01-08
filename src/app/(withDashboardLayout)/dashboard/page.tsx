@@ -104,7 +104,6 @@ const Dashboard = () => {
   };
 
   const handleModalChange = () => {
-    // Allow closure only if `userUpdatePending` is false
     if (!userUpdatePending) {
       onOpenChange();
     }

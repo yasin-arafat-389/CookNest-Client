@@ -23,6 +23,8 @@ const RecipePage = () => {
   const [sortedRecipes, setSortedRecipes] = useState<any[]>([]);
   const [sortCriterion, setSortCriterion] = useState<string>("upvote");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const handleSearch = () => {
     if (!searchQuery) {
@@ -60,6 +62,10 @@ const RecipePage = () => {
       setSortedRecipes(sorted);
     }
   }, [sortCriterion, allRecipe]);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentRecipes = sortedRecipes.slice(startIndex, endIndex);
 
   if (isLoading || isUserInfoLoading) {
     return <Loader />;
@@ -103,9 +109,9 @@ const RecipePage = () => {
           </div>
 
           <div className="w-[90%] mx-auto mt-10">
-            {sortedRecipes?.length > 0 ? (
+            {currentRecipes?.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {sortedRecipes?.map((recipe: any, index: number) => (
+                {currentRecipes.map((recipe: any, index: number) => (
                   <RecipeCard
                     key={index}
                     button={"show details"}
@@ -119,6 +125,41 @@ const RecipePage = () => {
                 No Recipe Found
               </div>
             )}
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-center mt-20 items-center gap-2">
+            <button
+              className="px-4 py-2 bg-button rounded font-bold"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => prev - 1)}
+            >
+              Previous
+            </button>
+
+            {Array.from({
+              length: Math.ceil(sortedRecipes.length / itemsPerPage),
+            }).map((_, pageNumber) => (
+              <button
+                key={pageNumber}
+                className={`px-3 py-2 rounded ${
+                  currentPage === pageNumber + 1
+                    ? "bg-[#B99470] text-white"
+                    : "bg-gray-300 text-gray-800"
+                }`}
+                onClick={() => setCurrentPage(pageNumber + 1)}
+              >
+                {pageNumber + 1}
+              </button>
+            ))}
+
+            <button
+              className="px-4 py-2 bg-button rounded font-bold"
+              disabled={endIndex >= sortedRecipes.length}
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
