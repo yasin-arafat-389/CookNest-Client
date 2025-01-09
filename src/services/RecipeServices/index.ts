@@ -43,6 +43,16 @@ export const getAllRecipe = async () => {
   }
 };
 
+export const getNonPremiumRecipe = async () => {
+  try {
+    const { data } = await axiosInstance.get(`/recipe/get-non-premium-recipe`);
+
+    return data;
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
+  }
+};
+
 export const getSingleRecipe = async (id: string) => {
   try {
     const { data } = await axiosInstance.get(`/recipe/get-single-recipe/${id}`);
