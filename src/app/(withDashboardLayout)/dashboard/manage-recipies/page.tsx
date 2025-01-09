@@ -10,7 +10,7 @@ import {
   usePublishRecipe,
   useUnpublishRecipe,
 } from "@/src/hooks/recipe.hooks";
-import Loader from "@/src/components/Loader/Loader";
+import ManageRecipeSkeletonLoader from "@/src/components/UI/ManageRecipeSkeletonLoader/ManageRecipeSkeletonLoader";
 
 const ManageRecipies = () => {
   const { data: recepiesData, isLoading } = useGetAllRecipiesForAdmin();
@@ -88,7 +88,7 @@ const ManageRecipies = () => {
   };
 
   if (isLoading) {
-    return <Loader />;
+    return <ManageRecipeSkeletonLoader />;
   }
 
   return (

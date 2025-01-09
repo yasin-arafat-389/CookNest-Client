@@ -5,13 +5,13 @@ import React, { useState } from "react";
 import { Button } from "@nextui-org/button";
 import Swal from "sweetalert2";
 
-import Loader from "@/src/components/Loader/Loader";
 import {
   useBlockUser,
   useDeleteUser,
   useGetAllUser,
   useUnblockUser,
 } from "@/src/hooks/user.hooks";
+import ManageUsersSkeletonLoader from "@/src/components/UI/ManageUsersSkeletonLoader/ManageUsersSkeletonLoader";
 
 const ManageUsers = () => {
   const { data: userInfo, isLoading } = useGetAllUser();
@@ -92,7 +92,7 @@ const ManageUsers = () => {
   };
 
   if (isLoading) {
-    return <Loader />;
+    return <ManageUsersSkeletonLoader />;
   }
 
   return (

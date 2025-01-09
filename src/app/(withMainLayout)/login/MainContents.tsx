@@ -23,7 +23,7 @@ const MainContentsOfLogin = () => {
     data: userLoginResponse,
   } = useUserLogin();
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
 
   useEffect(() => {
     if (userLoginResponse && !userLoginResponse.success) {
@@ -37,6 +37,16 @@ const MainContentsOfLogin = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     handleUserLogin(data);
     userLoading(true);
+  };
+
+  const populateUserCredentials = () => {
+    setValue("email", "ashik@gmail.com");
+    setValue("password", "asdfg");
+  };
+
+  const populateAdminCredentials = () => {
+    setValue("email", "admin@gmail.com");
+    setValue("password", "admin123");
   };
 
   return (
@@ -70,6 +80,23 @@ const MainContentsOfLogin = () => {
               <p className="text-xl text-gray-600 text-center">
                 Login to manage recipes!
               </p>
+
+              <div className="flex justify-center gap-4 my-6">
+                <Button
+                  className="font-semibold bg-button text-lg"
+                  type="button"
+                  onClick={populateUserCredentials}
+                >
+                  User Credentials
+                </Button>
+                <Button
+                  className="font-semibold bg-button text-lg"
+                  type="button"
+                  onClick={populateAdminCredentials}
+                >
+                  Admin Credentials
+                </Button>
+              </div>
 
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mt-4">

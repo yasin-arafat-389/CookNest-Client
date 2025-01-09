@@ -14,9 +14,9 @@ import {
   useGetAllAdmin,
   useUpdateAdmin,
 } from "@/src/hooks/user.hooks";
-import Loader from "@/src/components/Loader/Loader";
 import { useUser } from "@/src/context/user.provider";
 import CreateAdminForm from "@/src/components/UI/CreateAdminForm/CreateAdminForm";
+import ManageAdminsSkeleton from "@/src/components/UI/ManageAdminSkeletonLoader/ManageAdminSkeletonLoader";
 
 const ManageAdmins = () => {
   const { data: adminData, isLoading } = useGetAllAdmin();
@@ -87,7 +87,7 @@ const ManageAdmins = () => {
   };
 
   if (isLoading) {
-    return <Loader />;
+    return <ManageAdminsSkeleton />;
   }
 
   return (

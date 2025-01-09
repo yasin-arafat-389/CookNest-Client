@@ -14,8 +14,8 @@ import {
   useUpdateUserInfo,
   useUserInfo,
 } from "@/src/hooks/user.hooks";
-import Loader from "@/src/components/Loader/Loader";
 import RecipeCard from "@/src/components/UI/RecipeCard/RecipeCard";
+import { ProfileSkeletonLoader } from "@/src/components/UI/ProfileSkeletonLoader/ProfileSkeletonLoader";
 
 const Dashboard = () => {
   const { user } = useUser();
@@ -110,7 +110,7 @@ const Dashboard = () => {
   };
 
   if (isSingleUserDataLoading) {
-    return <Loader />;
+    return <ProfileSkeletonLoader />;
   }
 
   return (

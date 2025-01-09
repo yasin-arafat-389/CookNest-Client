@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 
 import RecipeCard from "@/src/components/UI/RecipeCard/RecipeCard";
 import { useGetAllRecipe } from "@/src/hooks/recipe.hooks";
-import Loader from "@/src/components/Loader/Loader";
 import { useGetUserInfo } from "@/src/hooks/user.hooks";
 import { useUser } from "@/src/context/user.provider";
 
@@ -67,10 +66,6 @@ const RecipePage = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentRecipes = sortedRecipes.slice(startIndex, endIndex);
 
-  if (isLoading || isUserInfoLoading) {
-    return <Loader />;
-  }
-
   return (
     <div>
       <div
@@ -89,6 +84,7 @@ const RecipePage = () => {
           <div className="max-w-screen-xl mx-auto mb-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
             {/* Select for sorting */}
             <Select
+              isDisabled={isLoading || isUserInfoLoading}
               label="Sort By"
               onChange={(event) => setSortCriterion(event.target.value)}
             >
@@ -98,6 +94,7 @@ const RecipePage = () => {
 
             {/* Search input */}
             <Input
+              disabled={isLoading || isUserInfoLoading}
               label="Search Recipe"
               type="text"
               value={searchQuery}
@@ -109,7 +106,22 @@ const RecipePage = () => {
           </div>
 
           <div className="w-[90%] mx-auto mt-10">
-            {currentRecipes?.length > 0 ? (
+            {isLoading || isUserInfoLoading ? (
+              // Skeleton Loader
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {Array.from({ length: itemsPerPage }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="bg-white shadow rounded-lg p-4 animate-pulse"
+                  >
+                    <div className="h-48 bg-gray-300 rounded mb-4" />
+                    <div className="h-6 bg-gray-300 rounded mb-2" />
+                    <div className="h-4 bg-gray-300 rounded mb-2" />
+                    <div className="h-8 bg-gray-300 rounded" />
+                  </div>
+                ))}
+              </div>
+            ) : currentRecipes?.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {currentRecipes.map((recipe: any, index: number) => (
                   <RecipeCard
@@ -128,7 +140,9 @@ const RecipePage = () => {
           </div>
 
           {/* Pagination */}
-          <div className="flex justify-center mt-20 items-center gap-2">
+          <div
+            className={`flex justify-center mt-20 items-center gap-2 ${isLoading || (isUserInfoLoading && "hidden")}`}
+          >
             <button
               className="px-4 py-2 bg-button rounded font-bold"
               disabled={currentPage === 1}

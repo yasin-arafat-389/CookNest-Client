@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 "use client";
 
@@ -27,9 +28,9 @@ import {
   useRateRecipe,
   useUpvoteRecipe,
 } from "@/src/hooks/recipe.hooks";
-import Loader from "@/src/components/Loader/Loader";
 import { useFollowUser, useUnfollowUser } from "@/src/hooks/user.hooks";
 import { useUser } from "@/src/context/user.provider";
+import RecipeSkeleton from "@/src/components/UI/RecipeSkeleton/RecipeSkeleton";
 
 const RecipeDetails = () => {
   const params = useParams();
@@ -57,8 +58,11 @@ const RecipeDetails = () => {
   const { mutate: unfollowUser, isPending: isUnfollowUserPending } =
     useUnfollowUser();
 
-  const { mutate: rateRecipe, isPending: isRateRecipePending } =
-    useRateRecipe();
+  const {
+    mutate: rateRecipe,
+    isPending: isRateRecipePending,
+    data: rateRecipeResponse,
+  } = useRateRecipe();
 
   const { mutate: commentRecipe, isPending: isCommentRecipePending } =
     useCommentRecipe();
@@ -109,8 +113,21 @@ const RecipeDetails = () => {
       rating: Number(data.rating),
     };
 
-    rateRecipe({ id: recipe?._id as string, payload: formattedData });
-    onOpenChange();
+    rateRecipe(
+      { id: recipe?._id as string, payload: formattedData },
+      {
+        onSuccess: (response: any) => {
+          if (response?.success) {
+            onOpenChange(); // Close the modal directly on success
+          } else {
+            toast.error("Failed to rate the recipe.");
+          }
+        },
+        onError: (error: any) => {
+          toast.error("An error occurred while rating the recipe.");
+        },
+      }
+    );
   };
 
   // Handle Comment Submit
@@ -139,13 +156,25 @@ const RecipeDetails = () => {
   const handleUpdateComment = async (e: FormEvent) => {
     e.preventDefault();
 
-    editComment({
-      recipeId: recipe?._id,
-      commentId,
-      payload: { comment: commentToEdit },
-    });
-
-    onCommentModalOpenChange();
+    editComment(
+      {
+        recipeId: recipe?._id,
+        commentId,
+        payload: { comment: commentToEdit },
+      },
+      {
+        onSuccess: (response: any) => {
+          if (response?.success) {
+            onCommentModalOpenChange();
+          } else {
+            toast.error("Failed to update comment!!");
+          }
+        },
+        onError: (error: any) => {
+          toast.error("An error occurred while rating the recipe.");
+        },
+      }
+    );
   };
 
   useEffect(() => {
@@ -165,7 +194,7 @@ const RecipeDetails = () => {
   }, [downVoteRecipeData]);
 
   if (isLoading) {
-    return <Loader />;
+    return <RecipeSkeleton />;
   }
 
   return (
@@ -192,8 +221,6 @@ const RecipeDetails = () => {
           {/* Recipe Content */}
           <div className="p-4 md:p-8">
             {" "}
-            {/* Responsive padding */}
-            {/* Recipe Title and Details */}
             <div className="flex flex-col md:flex-row justify-between items-center">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
                 {recipe?.title}
