@@ -10,6 +10,7 @@ import {
   editCommentRecipe,
   getAllRecipe,
   getAllRecipiesForAdmin,
+  getNonPremiumRecipe,
   getSingleRecipe,
   publishRecipe,
   rateRecipe,
@@ -48,6 +49,13 @@ export const useGetAllRecipe = () => {
   return useQuery({
     queryKey: ["GET_ALL_RECIPE"],
     queryFn: async () => await getAllRecipe(),
+  });
+};
+
+export const useGetNonPremiumRecipe = () => {
+  return useQuery({
+    queryKey: ["GET_NON_PREMIUM_RECIPE"],
+    queryFn: async () => await getNonPremiumRecipe(),
   });
 };
 
