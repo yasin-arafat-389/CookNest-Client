@@ -74,7 +74,7 @@ export default function NavigationBar() {
           <NavbarItem className=" sm:flex gap-2">
             <Button
               className="bg-[#FEFAE0] text-lg text-gray-800 font-bold"
-              onClick={() => router.push("/login")}
+              onPress={() => router.push("/login")}
             >
               Login
             </Button>

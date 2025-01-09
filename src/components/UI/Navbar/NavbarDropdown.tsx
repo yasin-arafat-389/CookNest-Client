@@ -85,7 +85,7 @@ export default function NavbarDropdown() {
               key={index}
               className={`${item.isDanger ? "text-danger" : ""}`}
               color={item.isDanger ? "danger" : "default"}
-              onClick={item.action}
+              onPress={item.action}
             >
               {item.label}
             </DropdownItem>
